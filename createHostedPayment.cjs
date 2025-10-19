@@ -67,6 +67,7 @@ const params = new URLSearchParams({
   merchant_reference: merchantReference,
   
   return_url: finalReturnUrl,
+ 
   
   interaction_type: 'HPP',
     
@@ -88,6 +89,7 @@ const params = new URLSearchParams({
     
     customer_details: {
       entity_id: entityId,
+      email: customerEmail,
       billing: {
         first_name: customerEmail.split('@')[0] || "Customer",
         last_name: "Sweetspot",
