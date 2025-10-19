@@ -1,5 +1,4 @@
 // createHostedPayment.cjs - FIXED FOR REDIRECT ISSUE
-
 require('dotenv').config();
 const axios = require('axios');
 
@@ -17,7 +16,6 @@ async function createHostedPayment(amount, customerEmail, returnUrl, useGiftCard
     throw new Error(`Invalid amount: ${amount}`);
   }
 
-  // Generate unique reference
   const merchantReference = `ORDER-${Date.now()}`;
   
   console.log('🎯 Creating Verifone payment:', {
@@ -40,36 +38,26 @@ async function createHostedPayment(amount, customerEmail, returnUrl, useGiftCard
     }
   }
 
-  // CRITICAL: Use the returnUrl provided by Flutter OR construct callback URL
+  // Build callback URL with email in query params
   const baseUrl = 'https://sweetspot.is';
+  const params = new URLSearchParams({
+    ref: merchantReference,
+    email: customerEmail,
+    clips: clipsUsed.toString(),
+    gift: giftAmount.toString()
+  });
   
-  // If returnUrl contains hash, replace it with callback
-  let finalReturnUrl = returnUrl;
-  if (!returnUrl || returnUrl.includes('#')) {
-    // Build proper callback URL
-    // After getting response from Verifone
-const params = new URLSearchParams({
-  ref: merchantReference,
-  checkout_id: response.data.id,  // ADD THIS - the actual checkout ID
-  email: customerEmail,
-  clips: clipsUsed.toString(),
-  gift: giftAmount.toString()
-});
-    finalReturnUrl = `${baseUrl}/payment/callback?${params.toString()}`;
-  }
-
+  const finalReturnUrl = `${baseUrl}/payment-callback.html?${params.toString()}`;
+  
   console.log('📍 Return URL:', finalReturnUrl);
 
   const data = {
-  amount: amount,
-  currency_code: 'ISK',
-  entity_id: entityId,
-  merchant_reference: merchantReference,
-  
-  return_url: finalReturnUrl,
- 
-  
-  interaction_type: 'HPP',
+    amount: amount,
+    currency_code: 'ISK',
+    entity_id: entityId,
+    merchant_reference: merchantReference,
+    return_url: finalReturnUrl,
+    interaction_type: 'HPP',
     
     configurations: {
       card: {
@@ -89,10 +77,11 @@ const params = new URLSearchParams({
     
     customer_details: {
       entity_id: entityId,
-      email: customerEmail,
+      // ✅ NO EMAIL HERE - REMOVED
       billing: {
         first_name: customerEmail.split('@')[0] || "Customer",
-        last_name: "Sweetspot",
+        last_name: "Sweetspot"
+        // ✅ NO EMAIL HERE - REMOVED
       }
     }
   };
