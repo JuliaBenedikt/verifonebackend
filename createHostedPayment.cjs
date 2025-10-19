@@ -88,7 +88,6 @@ const params = new URLSearchParams({
     
     customer_details: {
       entity_id: entityId,
-      email: customerEmail,
       billing: {
         first_name: customerEmail.split('@')[0] || "Customer",
         last_name: "Sweetspot",
