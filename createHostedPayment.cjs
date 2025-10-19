@@ -67,7 +67,6 @@ const params = new URLSearchParams({
   merchant_reference: merchantReference,
   
   return_url: finalReturnUrl,
-  webhook_url: 'https://us-central1-golfarena-6c786.cloudfunctions.net/verifoneWebhook',  // ← ADD THIS!
   
   interaction_type: 'HPP',
     
