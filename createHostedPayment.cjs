@@ -93,7 +93,6 @@ const params = new URLSearchParams({
       billing: {
         first_name: customerEmail.split('@')[0] || "Customer",
         last_name: "Sweetspot",
-        email: customerEmail
       }
     }
   };
