@@ -69,12 +69,7 @@ async function createHostedPayment(amount, customerEmail, customerName, returnUr
       card: {
         payment_contract_id: contractId,
         capture_now: true
-      },
-      ...(secure3dsId ? {
-        secure_3d: {
-          contract_id: secure3dsId
-        }
-      } : {})
+      }
     },
     
     line_items: [
