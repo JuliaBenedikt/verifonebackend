@@ -84,8 +84,8 @@ async function createHostedPayment(amount, customerEmail, customerName, returnUr
       entity_id: entityId,
       // ✅ NO EMAIL ANYWHERE
       billing: {
-        first_name: customerName || "Viðskiptamaður",
-        last_name: ""
+        first_name: "Viðskiptamaður",
+        last_name: customerName || "Viðskiptamaður"
         // ✅ NO EMAIL HERE EITHER
       }
     }
