@@ -64,7 +64,6 @@ async function createHostedPayment(amount, customerEmail, customerName, returnUr
     merchant_reference: merchantReference,
     return_url: finalReturnUrl,
     interaction_type: 'HPP',
-    locale: 'is-IS',
 
     configurations: {
       card: {
