@@ -1,8 +1,8 @@
-// createHostedPayment.cjs - FIXED FOR REDIRECT ISSUE
+// createHostedPayment.cjs - FIXED VERSION
 require('dotenv').config();
 const axios = require('axios');
 
-async function createHostedPayment(amount, customerEmail, returnUrl, useGiftCard, useClipCard) {
+async function createHostedPayment(amount, customerEmail, customerName, returnUrl, useGiftCard, useClipCard) {
   const apiKey = process.env.VERIFONE_API_KEY;
   const userId = process.env.VERIFONE_USER_ID;
   const entityId = process.env.VERIFONE_ENTITY_ID;
@@ -10,17 +10,23 @@ async function createHostedPayment(amount, customerEmail, returnUrl, useGiftCard
   const secure3dsId = process.env.VERIFONE_3DS_CONTRACT_ID;
   const secureCardKey = process.env.VERIFONE_SECURE_CARD_KEY;
 
+  console.log('🔐 3DS Configuration:', {
+    secure3dsId: secure3dsId ? 'ENABLED ✅' : 'NOT SET ❌',
+    contractId: secure3dsId || 'missing'
+  });
+
   amount = Number(amount);
-  
+
   if (isNaN(amount) || amount <= 0) {
     throw new Error(`Invalid amount: ${amount}`);
   }
 
   const merchantReference = `ORDER-${Date.now()}`;
-  
+
   console.log('🎯 Creating Verifone payment:', {
     amount,
     customerEmail,
+    customerName,
     merchantReference
   });
 
@@ -38,7 +44,7 @@ async function createHostedPayment(amount, customerEmail, returnUrl, useGiftCard
     }
   }
 
-  // Build callback URL with email in query params
+  // Build return URL with email in params (will add checkout_id later)
   const baseUrl = 'https://sweetspot.is';
   const params = new URLSearchParams({
     ref: merchantReference,
@@ -77,11 +83,11 @@ async function createHostedPayment(amount, customerEmail, returnUrl, useGiftCard
     
     customer_details: {
       entity_id: entityId,
-      // ✅ NO EMAIL HERE - REMOVED
+      // ✅ NO EMAIL ANYWHERE
       billing: {
-        first_name: customerEmail.split('@')[0] || "Customer",
-        last_name: "Sweetspot"
-        // ✅ NO EMAIL HERE - REMOVED
+        first_name: customerName || "Viðskiptamaður",
+        last_name: ""
+        // ✅ NO EMAIL HERE EITHER
       }
     }
   };
