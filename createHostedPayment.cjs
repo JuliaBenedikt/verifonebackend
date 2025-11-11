@@ -64,7 +64,8 @@ async function createHostedPayment(amount, customerEmail, customerName, returnUr
     merchant_reference: merchantReference,
     return_url: finalReturnUrl,
     interaction_type: 'HPP',
-    
+    locale: 'is-IS',
+
     configurations: {
       card: {
         payment_contract_id: contractId,
@@ -84,8 +85,8 @@ async function createHostedPayment(amount, customerEmail, customerName, returnUr
       entity_id: entityId,
       // ✅ NO EMAIL ANYWHERE
       billing: {
-        first_name: "Viðskiptamaður",
-        last_name: customerName || "Viðskiptamaður"
+        first_name: customerName || "Viðskiptamaður",
+        last_name: " "
         // ✅ NO EMAIL HERE EITHER
       }
     }
