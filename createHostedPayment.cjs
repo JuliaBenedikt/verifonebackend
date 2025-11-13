@@ -53,22 +53,16 @@ async function createHostedPayment(amount, customerEmail, customerName, returnUr
     gift: giftAmount.toString()
   });
   
-  const successUrl = `${baseUrl}/payment-callback.html?${params.toString()}`;
-  const cancelUrl = `${baseUrl}/#/shopping-cart?cancelled=true`;
-  const errorUrl = `${baseUrl}/#/shopping-cart?payment_error=true`;
+  const finalReturnUrl = `${baseUrl}/payment-callback.html?${params.toString()}`;
 
-  console.log('📍 Success URL:', successUrl);
-  console.log('📍 Cancel URL:', cancelUrl);
-  console.log('📍 Error URL:', errorUrl);
+  console.log('📍 Return URL:', finalReturnUrl);
 
   const data = {
     amount: amount,
     currency_code: 'ISK',
     entity_id: entityId,
     merchant_reference: merchantReference,
-    return_url: successUrl,
-    cancel_url: cancelUrl,
-    error_url: errorUrl,
+    return_url: finalReturnUrl,
     interaction_type: 'HPP',
 
     configurations: {
