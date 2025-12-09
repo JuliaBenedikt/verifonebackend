@@ -1,0 +1,5 @@
+git add server.js
+git commit -m "Fix: update Verifone domain to .cloud"
+git push origin main
+
+

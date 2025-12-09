@@ -1,0 +1,17 @@
+{
+  "name": "verifone-checkout-sample",
+  "version": "1.0.0",
+  "main": "server.cjs",
+  "scripts": {
+    "start": "node server.cjs"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "base-64": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.18.2",
+    "firebase-admin": "^12.0.0",
+    "querystring": "^0.2.1"
+  }
+}

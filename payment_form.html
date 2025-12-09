@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+  <meta charset="UTF-8">
+  <title>Sweet Spot - Greiðsla</title>
+</head>
+<body>
+  <h2>Greiðsluform</h2>
+  <form id="paymentForm">
+    <input type="text" id="fullName" placeholder="Fullt nafn" required><br><br>
+    <input type="email" id="email" placeholder="Netfang" required><br><br>
+    <input type="text" id="cardNumber" placeholder="Kortanúmer" required><br><br>
+    <input type="text" id="expiryMonth" placeholder="Gildistími MÁNUÐUR (MM)" required><br><br>
+    <input type="text" id="expiryYear" placeholder="Gildistími ÁR (YY)" required><br><br>
+    <input type="text" id="cvv" placeholder="Öryggisnúmer (CVV)" required><br><br>
+    <input type="number" id="amount" placeholder="Upphæð (ISK)" required><br><br>
+
+    <button type="submit">Greiða</button>
+  </form>
+
+  <script>
+    document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const paymentData = {
+        amount: document.getElementById('amount').value,
+        fullName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        cardNumber: document.getElementById('cardNumber').value,
+        expiryMonth: document.getElementById('expiryMonth').value,
+        expiryYear: document.getElementById('expiryYear').value,
+        cvv: document.getElementById('cvv').value,
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/pay-direct', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(paymentData),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert('Greiðsla tókst!');
+          window.location.href = '/success';
+        } else {
+          alert('Greiðsla mistókst: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Villa í greiðslu:', error);
+        alert('Villa við að greiða.');
+      }
+    });
+  </script>
+</body>
+</html>
