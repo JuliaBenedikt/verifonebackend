@@ -25,8 +25,7 @@ async function createHostedPayment(amount, customerEmail, returnUrl, useGiftCard
     interaction_type: 'HPP',
     configurations: {
       card: {
-        payment_contract_id: contractId,
-        ...(secure3dsId ? { secure3d_contract_id: secure3dsId } : {})
+        payment_contract_id: contractId
       }
     },
     line_items: [
